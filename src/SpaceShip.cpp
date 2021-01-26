@@ -1,4 +1,6 @@
 #include "SpaceShip.h"
+
+
 #include "Game.h"
 #include "Util.h"
 
@@ -54,30 +56,7 @@ void SpaceShip::setMaxSpeed(const float speed)
 
 glm::vec2 SpaceShip::getOrientation() const
 {
-	return glm::vec2();
-}
-
-void SpaceShip::setOrientation(glm::vec2 orientation)
-{
-	m_orientation = orientation;
-}
-
-float SpaceShip::getRotation() const
-{
-	return m_rotationAngle;
-}
-
-void SpaceShip::setRotation(float angle)
-{
-	m_rotationAngle = angle;
-	const auto offset = -90.0f;
-	const auto angle_in_radians = (angle + offset) * Util::Deg2Rad;
-	 
-	const auto x = cos(angle_in_radians);
-	const auto y = sin(angle_in_radians);
-
-	// convert the angle to a normalized vector and store it in Orientation
-	setOrientation(glm::vec2(x, y));
+	return m_orientation;
 }
 
 float SpaceShip::getTurnRate() const
@@ -85,7 +64,7 @@ float SpaceShip::getTurnRate() const
 	return m_turnRate;
 }
 
-void SpaceShip::setTurnRate(float rate)
+void SpaceShip::setTurnRate(const float rate)
 {
 	m_turnRate = rate;
 }
@@ -95,9 +74,33 @@ float SpaceShip::getAccelerationRate() const
 	return m_accelerationRate;
 }
 
-void SpaceShip::setAccelerationRate(float rate)
+void SpaceShip::setAccelerationRate(const float rate)
 {
 	m_accelerationRate = rate;
+}
+
+void SpaceShip::setOrientation(const glm::vec2 orientation)
+{
+	m_orientation = orientation;
+}
+
+void SpaceShip::setRotation(const float angle)
+{
+	m_rotationAngle = angle;
+
+	const auto offset = -90.0f;
+	const auto angle_in_radians = (angle + offset) * Util::Deg2Rad;
+
+	const auto x = cos(angle_in_radians);
+	const auto y = sin(angle_in_radians);
+
+	// convert the angle to a normalized vector and store it in Orientation
+	setOrientation(glm::vec2(x, y));
+}
+
+float SpaceShip::getRotation() const
+{
+	return m_rotationAngle;
 }
 
 void SpaceShip::m_Move()
@@ -112,22 +115,27 @@ void SpaceShip::m_Move()
 
 	auto target_rotation = Util::signedAngle(getOrientation(), m_targetDirection);
 
-	if (target_rotation < 0.0f)
-	{
-		setRotation(getRotation) + getTurnRate());
-	}
-	else if (target_rotation < 0.0f)
-	{
-		setRotation(getRotation() - getTurnRate();
-	}
+	auto turn_sensitivity = 5.0f;
 
+	if(abs(target_rotation) > turn_sensitivity)
+	{
+		if (target_rotation > 0.0f)
+		{
+			setRotation(getRotation() + getTurnRate());
+		}
+		else if (target_rotation < 0.0f)
+		{
+			setRotation(getRotation() - getTurnRate());
+		}
+	}
+	
 	getRigidBody()->acceleration = getOrientation() * getAccelerationRate();
 
 	// using the formula pf = pi + vi*t + 0.5ai*t^2
 	getRigidBody()->velocity += getOrientation() * (deltaTime)+
 		0.5f * getRigidBody()->acceleration * (deltaTime);
 
-	getRigidBody()->velocity = Util:clamp(getRigidBody()->velocity, m_maxSpeed);
+	getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, m_maxSpeed);
 
 	getTransform()->position += getRigidBody()->velocity;
 }

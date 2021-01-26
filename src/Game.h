@@ -47,14 +47,16 @@ public:
 
 	// getter and setter functions
 	glm::vec2 getMousePosition() const;
+	
 	void setFrames(Uint32 frames);
 	Uint32 getFrames() const;
+
+	float getDeltaTime() const;
+	void setDeltaTime(float time);
+	
 	bool isRunning() const;
 	void changeSceneState(SceneState new_state);
 	
-	float getDeltaTime();
-	void setDeltaTime(float time);
-
 private:
 	Game();
 	~Game();

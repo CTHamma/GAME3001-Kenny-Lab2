@@ -1,23 +1,23 @@
 #pragma once
-#ifndef_OBSTACLE_
-#define_OBSTACLE_
+#ifndef __OBSTACLE__
+#define __OBSTACLE__
 #include "DisplayObject.h"
 
-class Obstacle : public DisplayObject
+class Obstacle final : public DisplayObject
 {
 public:
 	// constructors
 	Obstacle();
-
-	//destructor
+	
+	// destructor
 	~Obstacle();
-
+	
 	// life cycle functions
 	void draw() override;
 	void update() override;
 	void clean() override;
 private:
-
+	
 };
 
-#endif
+#endif /* defined (__OBSTACLE__) */

@@ -1,4 +1,7 @@
 #include "Obstacle.h"
+
+
+#include "SoundManager.h"
 #include "TextureManager.h"
 
 Obstacle::Obstacle()
@@ -10,8 +13,11 @@ Obstacle::Obstacle()
 	setHeight(size.y);
 
 	getTransform()->position = glm::vec2(300.0f, 300.0f);
-	
+
 	setType(OBSTACLE);
+	getRigidBody()->isColliding = false;
+
+	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay", SOUND_SFX);
 }
 
 Obstacle::~Obstacle()
@@ -19,5 +25,14 @@ Obstacle::~Obstacle()
 
 void Obstacle::draw()
 {
-	TextureManager::Instance()->draw("obstacle", getTransform()->position.x getTransform()->postion
+	TextureManager::Instance()->draw("obstacle", 
+		getTransform()->position.x, getTransform()->position.y, 0, 255, true);
+}
+
+void Obstacle::update()
+{
+}
+
+void Obstacle::clean()
+{
 }

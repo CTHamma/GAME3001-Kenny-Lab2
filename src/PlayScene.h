@@ -5,9 +5,9 @@
 #include "Scene.h"
 #include "Button.h"
 #include "Label.h"
+#include "Obstacle.h"
 #include "SpaceShip.h"
 #include "Target.h"
-#include "Obstacle.h"
 
 class PlayScene : public Scene
 {
@@ -22,7 +22,6 @@ public:
 	virtual void handleEvents() override;
 	virtual void start() override;
 
-	
 private:
 	// IMGUI Function
 	void GUI_Function() const;
@@ -32,6 +31,7 @@ private:
 
 	SpaceShip* m_pSpaceShip;
 	Target* m_pTarget;
+	Obstacle* m_pObstacle;
 	
 	// UI Items
 	

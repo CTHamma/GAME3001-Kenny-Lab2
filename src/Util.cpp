@@ -38,16 +38,18 @@ float Util::clamp(float value, const float min, const float max)
 	return value;
 }
 
-glm::vec2 Util::clamp(glm::vec2 vec, float max_length)
+/** This method confines a vector magnitude to the max_length parameter */
+glm::vec2 Util::clamp(glm::vec2 vec, const float max_length)
 {
-	const auto sqr_magnitude = squaredMagnitude(vec);
-	if (sqr_magnitude > max_length * max_length)
+	const auto sqr_magnitude = Util::squaredMagnitude(vec);
+	if(sqr_magnitude > max_length * max_length)
 	{
 		const auto mag = sqrt(sqr_magnitude);
-		const auto normazlize_x = vec.x / mag;
+		const auto normalized_x = vec.x / mag;
 		const auto normalized_y = vec.y / mag;
-		return glm::vec2(normazlize_x * max_length, normalized_y * max_length);
+		return glm::vec2(normalized_x * max_length, normalized_y * max_length);
 	}
+	return vec;
 }
 
 /**

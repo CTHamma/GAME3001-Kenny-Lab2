@@ -30,6 +30,8 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
+
+	CollisionManager::AABBCheck(m_pSpaceShip, m_pObstacle);
 }
 
 void PlayScene::clean()
@@ -62,17 +64,17 @@ void PlayScene::start()
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 
-	
 	m_pTarget = new Target();
-	m_pTarget->getTransform()->position = glm::vec2(400.0f, 300.0f);
+	m_pTarget->getTransform()->position = glm::vec2(700.0f, 300.0f);
 	addChild(m_pTarget);
 
-	m_pObstacle = new Target();
-	m_pTarget->getTransform()->position = glm::vec2(500.0f,
+	m_pObstacle = new Obstacle();
+	m_pObstacle->getTransform()->position = glm::vec2(500.0f, 300.0f);
+	addChild(m_pObstacle);
 
 	// instantiating spaceship
 	m_pSpaceShip = new SpaceShip();
-	m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 100.0f);
+	m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 300.0f);
 	m_pSpaceShip->setEnabled(false);
 	m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
 	addChild(m_pSpaceShip);
@@ -86,7 +88,7 @@ void PlayScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("GAME3001 - Lab 2", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
 	static float speed = 10.0f;
 	if(ImGui::SliderFloat("MaxSpeed", &speed, 0.0f, 100.0f))
@@ -95,7 +97,7 @@ void PlayScene::GUI_Function() const
 	}
 
 	static float acceleration_rate = 2.0f;
-	if (ImGui::SliderFloat("Acceleration Rate", &acceleration_rate, 0.0f, 50.0f))
+	if(ImGui::SliderFloat("Acceleration Rate", &acceleration_rate, 0.0f, 50.0f))
 	{
 		m_pSpaceShip->setAccelerationRate(acceleration_rate);
 	}
@@ -105,13 +107,13 @@ void PlayScene::GUI_Function() const
 	{
 		m_pSpaceShip->setRotation(angleInRadians * Util::Rad2Deg);
 	}
-	
+
 	static float turn_rate = 5.0f;
-	if (ImGui::SliderFloat("Turn Rate", &turn_rate, 0.0f, 20.0f))
+	if(ImGui::SliderFloat("Turn Rate", &turn_rate, 0.0f, 20.0f))
 	{
 		m_pSpaceShip->setTurnRate(turn_rate);
 	}
-
+	
 	if(ImGui::Button("Start"))
 	{
 		m_pSpaceShip->setEnabled(true);
