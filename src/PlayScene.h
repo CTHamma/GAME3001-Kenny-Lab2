@@ -7,6 +7,7 @@
 #include "Label.h"
 #include "SpaceShip.h"
 #include "Target.h"
+#include "Obstacle.h"
 
 class PlayScene : public Scene
 {
