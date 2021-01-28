@@ -69,7 +69,7 @@ void PlayScene::start()
 	addChild(m_pTarget);
 
 	m_pObstacle = new Obstacle();
-	m_pObstacle->getTransform()->position = glm::vec2(500.0f, 300.0f);
+	m_pObstacle->getTransform()->position = glm::vec2(200.0f, 450.0f);
 	addChild(m_pObstacle);
 
 	// instantiating spaceship
